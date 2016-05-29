@@ -2,7 +2,7 @@
 if [ -f /.dockerinit ] || [ -f /.dockerenv ]; then
 
     # activate python environment
-    cd /workspace/src
+    cd /workspace
     . /opt/bka_env/bin/activate
 
     # Help

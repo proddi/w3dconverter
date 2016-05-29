@@ -5,7 +5,7 @@ if [ -f /.dockerinit ] || [ -f /.dockerenv ]; then
     ln -s -F /tools/.bash_history ~/.bash_history
 
     # activate python environment
-    cd /workspace/src
+    cd /workspace
     . /opt/py3_env/bin/activate
 
     # Help
