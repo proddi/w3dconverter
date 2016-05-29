@@ -10,6 +10,7 @@ def main(args):
     parser = ArgumentParser()
     parser.add_argument("--debug", "-d", dest="debug", action="store_true", default=False, help="Verbose output")
     parser.add_argument("--file", required=True, type=str)
+    parser.add_argument("--texture-path", type=str, nargs="*")
     parser.add_argument("--threejs", type=str, help="Export as threejs object")
     options = parser.parse_args()
 
@@ -21,16 +22,18 @@ def main(args):
 
     if 0:
         import yaml
+        from mathutils import Vector, Quaternion
         yaml.add_representer(Vector, lambda dumper, vector: dumper.represent_scalar('Vector', '%s, %s, %s' % (vector.x, vector.y, vector.z)))
         yaml.add_representer(Quaternion, lambda dumper, q: dumper.represent_scalar('Quaternion', '%s, %s, %s, %s' % (q.w, q.x, q.y, q.z)))
         print(yaml.dump(model))
         exit(0)
 
     if options.threejs:
-        data = model.as_threejs()
+        data = model.as_threejs(texture_paths=options.texture_path)
         with open(options.threejs, "w") as fw:
             fw.write(json.dumps(data, indent=2))
-            print(json.dumps(data, indent=2))
+            if options.debug:
+                print(json.dumps(data, indent=2))
 
     else:
         print(json.dumps(model.as_threejs(), indent=2))
